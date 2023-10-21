@@ -1,0 +1,78 @@
+from tkinter import *
+from tkinter import filedialog
+
+def submit(): 
+    input = text.get("1.0",END)
+    print(input)
+    
+def save_file():
+    # Open file for save text
+    file_save = filedialog.asksaveasfile(initialdir="Desktop",
+                                         defaultextension='.txt',
+                                         filetypes=[
+                                             ("Text file",".txt"),
+                                             ("HTML",".html"),
+                                             ("All files",".*")])
+    
+    
+    filetext = str(text.get(1.0,END))
+    file_save.write(filetext)
+    
+def openfile():
+    # open file when click open file button
+    file_path = filedialog.askopenfilename(initialdir="Desktop",
+                                           title="My file details",
+                                           filetypes=[("text files","*.txt"),
+                                                      ("All files","*.*")])
+    print(file_path)
+    file = open(file_path,'r') #File reading command 
+    print(file.read()) #Display content of that selected file
+    file.close()
+    
+def copy():
+    print("You copied text.")
+
+def cut():
+    print("You have cut text.")
+
+def paste():
+    print("You Pasted text.")
+    
+window = Tk()
+window.title("Sticky Note")
+text = Text(window,
+            bg="#f7f5bc",
+            fg="purple",
+            font=("Ink free",25),
+            width=20,
+            height=8,
+            padx=20,
+            pady=20
+            )
+            
+text.pack()
+
+#MenuBar make section
+menubar = Menu(window)
+window.config(menu=menubar)
+
+filemenu = Menu(menubar, tearoff=0)
+menubar.add_cascade(label="File", menu=filemenu)
+
+filemenu.add_command(label="Open", command=openfile)
+filemenu.add_command(label="Save", command=save_file)
+filemenu.add_separator() #Make line for seperation between menu label
+filemenu.add_command(label="Exit", command=quit)
+
+edit_menu = Menu(menubar, tearoff=0)
+menubar.add_cascade(label="Edit", menu=edit_menu)
+
+edit_menu.add_command(label="Copy", command=copy)
+edit_menu.add_command(label="Cut", command=cut)
+filemenu.add_separator()
+edit_menu.add_command(label="Paste", command=paste)
+
+button_submit = Button(window, text="Submit", command=submit)
+button_submit.pack()
+
+window.mainloop()
